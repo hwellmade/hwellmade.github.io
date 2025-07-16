@@ -1,0 +1,101 @@
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Windows
+*.tmp
+*.temp
+*.log
+*.bak
+*.swp
+*~.nib
+local.properties
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.atom/
+.brackets.json
+
+# Node.js (if using any build tools)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Build outputs and temporary files
+dist/
+build/
+.cache/
+.parcel-cache/
+.next/
+out/
+
+# Environment and configuration files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+config.json
+secrets.json
+
+# Backup files
+*.backup
+*.bak
+*.orig
+
+# Archive files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Large media files (uncomment if needed)
+# *.mp4
+# *.mov
+# *.avi
+# *.mkv
+# *.pdf
+# *.psd
+
+# Development and testing files
+test/
+tests/
+.coverage
+coverage/
+
+# Deployment files
+.deploy/
+.publish/
+
+# Local development
+.local/
+.temp/
+
+# Documentation drafts
+drafts/
+*.draft
+
+# Personal notes and private files
+notes.txt
+todo.txt
+private/
+personal/
+
+# Fonts (if too large)
+# fonts/
+# *.woff
+# *.woff2
+# *.ttf
+# *.otf 
