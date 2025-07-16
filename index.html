@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects from Ji-Ling</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 60px 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 80px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .logo::before {
+            display: none;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 32px;
+            padding: 80px 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 600px;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--gradient);
+        }
+
+        .project-card:nth-child(1) {
+            --gradient: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        .project-card:nth-child(2) {
+            --gradient: linear-gradient(135deg, #ec4899, #f97316);
+        }
+
+        .project-card:nth-child(3) {
+            --gradient: linear-gradient(135deg, #3b82f6, #06b6d4);
+        }
+
+        .project-card:nth-child(4) {
+            --gradient: linear-gradient(135deg, #6366f1, #3b82f6);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-icon {
+            width: 360px;
+            height: 360px;
+            background: var(--gradient);
+            border-radius: 32px;
+            margin: 0 auto 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 32px;
+        }
+
+        .project-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+
+        .project-description {
+            color: #6b7280;
+            line-height: 1.7;
+            font-size: 1.1rem;
+            text-align: left;
+        }
+
+        /* Image Modal Styles */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            overflow: auto;
+        }
+
+        .image-modal.show {
+            display: flex;
+            opacity: 1;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 20px;
+            overflow: auto;
+        }
+
+        .modal-content {
+            max-width: none;
+            max-height: none;
+            border-radius: 16px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+            margin: auto;
+            position: relative;
+        }
+
+        .image-modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-image {
+            width: auto;
+            height: auto;
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 16px;
+            display: block;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #ccc;
+        }
+
+        /* Make project images clickable */
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 32px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .project-image:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Contact Section Styles */
+        .contact-section {
+            margin-top: 100px;
+            padding: 60px 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 32px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .contact-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 50px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-item {
+            background: white;
+            padding: 30px 25px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .contact-item:nth-child(1) .contact-icon {
+            background: linear-gradient(135deg, #0077b5, #00a0dc);
+        }
+
+        .contact-item:nth-child(2) .contact-icon {
+            background: linear-gradient(135deg, #ea4335, #fbbc05);
+        }
+
+        .contact-item:nth-child(3) .contact-icon {
+            background: linear-gradient(135deg, #07c160, #1aad19);
+        }
+
+        .contact-label {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+
+        .contact-info {
+            color: #6b7280;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .contact-link {
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .contact-link:hover {
+            border-bottom-color: #6366f1;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                max-width: 100%;
+            }
+            
+            .project-card {
+                padding: 60px 40px;
+                min-height: 500px;
+            }
+            
+            .project-icon {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .close-modal {
+                top: 10px;
+                right: 20px;
+                font-size: 30px;
+            }
+            
+            body {
+                padding: 40px 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contact-section {
+                margin-top: 60px;
+                padding: 40px 20px;
+            }
+
+            .contact-title {
+                font-size: 2rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .contact-item {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="jlprofile.jpg" alt="Ji-Ling's Profile">
+            </div>
+            <h1>Projects from Ji-Ling</h1>
+            <p class="subtitle">
+                Showcasing my creative work and technical projects. 
+                Each project represents a unique challenge and learning experience.
+            </p>
+        </div>
+
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-icon">
+                    <img src="images/project_1.png" alt="Project 1" class="project-image">
+                </div>
+                <h3 class="project-title">Viseal AI</h3>
+                <p class="project-description">
+                    • Immersive language learning using your own photos. Take a photo and start learning a language!<br><br>                    
+                    • CoT LLM image recognition and dialogue generations<br><br>
+                    • TTS for speech synthesis<br><br>
+                    • Next.js + Tailwind + FastAPI<br><br>
+                    <a href="https://www.viseal.ai" target="_blank" style="color: #6366f1; text-decoration: none; font-weight: 600; border-bottom: 2px solid #6366f1;">Go to Viseal Website →</a><br><br>
+                    <a href="https://www.producthunt.com/products/viseal" target="_blank" style="color: #6366f1; text-decoration: none; font-weight: 600; border-bottom: 2px solid #6366f1;">Product Hunt Featured →</a>
+                </p>
+            </div>
+
+            <div class="project-card">
+                <div class="project-icon">
+                    <img src="images/project_2.png" alt="Project 2" class="project-image">
+                </div>
+                <h3 class="project-title">Better than Google Translate</h3>
+                <p class="project-description">
+                    • An intelligent AI agent for image translation and explanation.<br><br>
+                    • Method: mixed OCR + LLM with cross-matching<br><br>
+                    • Lesson Learn: LLM is good at understanding the context of the image, but it can't give correct text coordinates. OCR+traditional section based translation can't fully capture the context correctly. A cross-matching can join the capabilities<br><br>
+                    • Cons: speed is challenges. For complex images with many text, it takes too long (up to 20s) to translate.
+                    <a href="https://image-translator-one.vercel.app/" target="_blank" style="color: #6366f1; text-decoration: none; font-weight: 600; border-bottom: 2px solid #6366f1;">Try My Demo →</a>
+                </p>
+            </div>
+
+            <div class="project-card">
+                <div class="project-icon">
+                    <img src="images/project_3.png" alt="Project 3" class="project-image">
+                </div>
+                <h3 class="project-title">RAG Buddy</h3>
+                <p class="project-description">
+                    • Academic cooperation to help reviewer process large batch of unstructured pdf<br><br>
+                    • each pdf contains up to 40 pages of undefined sequences of personal information, emails, publications, etc.<br><br>
+                    • Method: sectional RAG with local LLM to make sure it doesn't hallucinate<br><br>
+                    • Lesson Learn: RAG+loop+straight forward model (thinking models often get wrong results)<br><br> 
+                    <span style="color: #6b7280; font-style: italic;">🔒 Private Project - Confidential</span>
+                </p>
+            </div>
+
+            <div class="project-card">
+                <div class="project-icon">
+                    <img src="images/project_4.png" alt="Project 4" class="project-image">
+                </div>
+                <h3 class="project-title">Transient Absorption Analyzer</h3>
+                <p class="project-description">
+                    • Research Lab operation with Tokyo UEC University<br><br>
+                    • A Python analytic software for calculating and plotting transient absorption spectroscopy data with an intuitive graphical user interface<br><br>
+                    <a href="https://github.com/hwellmade/transientAbsorptionAnalyzer" target="_blank" style="color: #6366f1; text-decoration: none; font-weight: 600; border-bottom: 2px solid #6366f1;">View on GitHub →</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" class="modal-image" src="" alt="Project Image">
+        </div>
+    </div>
+
+    <div class="contact-section">
+        <h2 class="contact-title">Contact Me</h2>
+        <p class="contact-subtitle">
+            Let's connect and discuss potential collaborations or opportunities.
+        </p>
+        <div class="contact-grid">
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 28px; height: 28px;">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                        <rect width="4" height="12" x="2" y="9"/>
+                        <circle cx="4" cy="4" r="2"/>
+                    </svg>
+                </div>
+                <div class="contact-label">LinkedIn</div>
+                <div class="contact-info"><a href="https://www.linkedin.com/in/jilinghou/" target="_blank" class="contact-link">My LinkedIn (Ji-Ling Hou)</a></div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 28px; height: 28px;">
+                        <rect width="20" height="16" x="2" y="4" rx="2"/>
+                        <path d="m22 7-10 5L2 7"/>
+                    </svg>
+                </div>
+                <div class="contact-label">Email</div>
+                <div class="contact-info"><a href="mailto:jiling.hou@outlook.com" class="contact-link">jiling.hou@outlook.com</a></div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 28px; height: 28px;">
+                        <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3.01.97 4.31L1 23l6.69-1.97C9.01 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/>
+                        <path d="M8.5 14.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S7 12.17 7 13s.67 1.5 1.5 1.5z"/>
+                        <path d="M15.5 14.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S14 12.17 14 13s.67 1.5 1.5 1.5z"/>
+                        <path d="M12 17.5c1.38 0 2.5-1.12 2.5-2.5h-5c0 1.38 1.12 2.5 2.5 2.5z"/>
+                    </svg>
+                </div>
+                <div class="contact-label">WeChat</div>
+                    @hwellafra
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get modal elements
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const closeModal = document.getElementById('closeModal');
+        const projectImages = document.querySelectorAll('.project-image');
+
+        // Add click event to all project images
+        projectImages.forEach(image => {
+            image.addEventListener('click', function() {
+                modal.style.display = 'flex';
+                modalImage.src = this.src;
+                modalImage.alt = this.alt;
+                // Trigger animation
+                setTimeout(() => {
+                    modal.classList.add('show');
+                }, 10);
+            });
+        });
+
+        // Close modal when clicking the X
+        closeModal.addEventListener('click', function() {
+            closeModalFunction();
+        });
+
+        // Close modal when clicking outside the image
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModalFunction();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('show')) {
+                closeModalFunction();
+            }
+        });
+
+        // Close modal function with animation
+        function closeModalFunction() {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        }
+    </script>
+</body>
+</html> 
